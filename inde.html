@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DataLens Excel Visualizer</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero">
+        <div class="hero-badge">DataLens</div>
+        <h1>Excel Visualizer</h1>
+        <p class="hero-copy">
+          Upload Excel or CSV files and instantly generate pie charts and percentage tables.
+        </p>
+      </header>
+
+      <main class="workspace">
+        <section class="panel">
+          <h2>Upload File</h2>
+          <p class="panel-copy">Supports `.xlsx`, `.xls`, and `.csv`.</p>
+
+          <label class="upload-box" for="fileInput">
+            <input id="fileInput" type="file" accept=".xlsx,.xls,.csv" />
+            <span class="upload-title">Choose your spreadsheet</span>
+            <span class="upload-subtitle">Click to browse and load your data</span>
+          </label>
+
+          <div class="controls-grid">
+            <label>
+              Sheet
+              <select id="sheetSelect" disabled></select>
+            </label>
+
+            <label>
+              Category Column
+              <select id="categorySelect" disabled></select>
+            </label>
+
+            <label>
+              Value Column
+              <select id="valueSelect" disabled></select>
+            </label>
+          </div>
+
+          <div class="actions-row">
+            <button id="generateBtn" class="primary-btn" disabled>Generate Analysis</button>
+          </div>
+
+          <p id="statusText" class="status-text">Upload a file to begin.</p>
+        </section>
+
+        <section class="results-grid">
+          <article class="panel chart-panel">
+            <div class="panel-head">
+              <div>
+                <h2>Pie Chart</h2>
+                <p id="chartMeta" class="panel-copy">Your chart will appear here.</p>
+              </div>
+            </div>
+            <div class="chart-wrap">
+              <canvas id="pieChart"></canvas>
+            </div>
+          </article>
+
+          <article class="panel">
+            <h2>Percentage Table</h2>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Category</th>
+                    <th>Value</th>
+                    <th>Percent</th>
+                  </tr>
+                </thead>
+                <tbody id="tableBody">
+                  <tr>
+                    <td colspan="3">No analysis yet.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </article>
+        </section>
+      </main>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
