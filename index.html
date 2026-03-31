@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AutoMynd Learning Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css?v=20260321-1" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="shell topbar-inner">
+        <div class="brand">AutoMynd <span>Inc</span></div>
+        <nav class="topnav" aria-label="Main navigation">
+          <button id="trainingTabBtn" class="nav-btn active" type="button">Training Videos</button>
+          <button id="adminTabBtn" class="nav-btn" type="button">Admin Panel</button>
+        </nav>
+        <div class="topbar-actions">
+          <button id="themeToggle" class="ghost-btn" type="button">Theme</button>
+          <button id="traineeLogoutBtn" class="ghost-btn hidden" type="button">Logout Trainee</button>
+          <button id="adminLogoutBtn" class="ghost-btn hidden" type="button">Logout Admin</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="shell page-wrap">
+      <section id="trainingView" class="view active">
+        <h1>Training Videos</h1>
+        <p class="subtitle">Data Handling Training</p>
+        <div class="notice-banner">
+          GitHub testing build: employee logins, videos, and progress are stored in this browser for temporary demos only.
+        </div>
+        <div id="runtimeStatus" class="status-banner hidden"></div>
+
+        <article id="traineeGate" class="panel admin-gate">
+          <h2>Trainee Login</h2>
+          <p>Login with your employee credentials to access your training modules.</p>
+          <form id="traineeLoginForm" class="stack-form">
+            <label>
+              Employee Email
+              <input id="traineeEmail" type="email" placeholder="you@company.com" required />
+            </label>
+            <label>
+              Password
+              <input id="traineePassword" type="password" placeholder="Enter your password" required />
+            </label>
+            <button class="primary-btn" type="submit">Login to Training Portal</button>
+          </form>
+          <p id="traineeGateMessage" class="error-text"></p>
+        </article>
+
+        <div id="traineeContent" class="hidden">
+          <article id="passwordChangePanel" class="panel hidden">
+            <h2>Update Temporary Password</h2>
+            <p>Your admin assigned a temporary password. Change it here before using the training modules.</p>
+            <form id="passwordChangeForm" class="stack-form">
+              <label>
+                New Password
+                <input id="newPassword" type="password" placeholder="Create a new password" required />
+              </label>
+              <label>
+                Confirm Password
+                <input id="confirmPassword" type="password" placeholder="Repeat your new password" required />
+              </label>
+              <button class="primary-btn" type="submit">Save New Password</button>
+            </form>
+            <p id="passwordChangeMessage" class="error-text"></p>
+          </article>
+
+          <div id="trainingWorkspace">
+            <div class="controls-grid">
+              <label>
+                Logged in as
+                <input id="activeTraineeDisplay" type="text" readonly />
+              </label>
+              <label>
+                Video Folder
+                <select id="folderFilterSelect">
+                  <option value="all">All folders</option>
+                </select>
+              </label>
+              <label>
+                Search Modules
+                <input id="videoSearchInput" type="text" placeholder="Search videos by title or module..." />
+              </label>
+            </div>
+
+            <section id="videoCardGrid" class="folder-groups" aria-label="Training modules"></section>
+
+            <article class="player-panel">
+              <div class="player-header">
+                <h2 id="playerTitle">Select a module</h2>
+                <p id="videoMeta">Choose a card to start watching.</p>
+              </div>
+              <video id="trainingPlayer" controls preload="metadata"></video>
+              <div class="completion-row">
+                <label class="check-wrap">
+                  <input id="completionCheckbox" type="checkbox" disabled />
+                  <span>I have completed this module</span>
+                </label>
+                <button id="openQuizBtn" class="secondary-btn hidden" type="button">Open Quiz</button>
+                <p id="completionNote">Watch until near the end to enable completion checkbox.</p>
+              </div>
+              <p id="videoStatus" class="status-text">Progress will appear here once playback starts.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="adminView" class="view">
+        <h1>Admin Portal</h1>
+        <p class="subtitle">Restricted area: only owner access. This GitHub version is for temporary testing only.</p>
+
+        <article id="adminGate" class="panel admin-gate">
+          <h2>Admin Login</h2>
+          <p>Enter your admin credentials to manage joinees, videos, and analytics.</p>
+          <form id="adminLoginForm" class="stack-form">
+            <label>
+              Admin Username
+              <input id="adminUsername" type="text" placeholder="vcharan71-sys" required />
+            </label>
+            <label>
+              Access Key
+              <input id="adminPasscode" type="password" placeholder="Enter access key" required />
+            </label>
+            <button class="primary-btn" type="submit">Unlock Admin Portal</button>
+          </form>
+          <p id="adminGateMessage" class="error-text"></p>
+        </article>
+
+        <div id="adminContent" class="hidden">
+          <div class="admin-grid">
+            <article class="panel">
+              <h2>Add New Joinee</h2>
+              <form id="joineeForm" class="stack-form">
+                <label>
+                  Full Name
+                  <input id="joineeName" type="text" placeholder="Aarav Kumar" required />
+                </label>
+                <label>
+                  Email
+                  <input id="joineeEmail" type="email" placeholder="aarav@company.com" required />
+                </label>
+                <label>
+                  Temporary Password
+                  <input id="joineePassword" type="text" placeholder="Trainee@123" required />
+                </label>
+                <button class="primary-btn" type="submit">Add Joinee</button>
+              </form>
+            </article>
+
+            <article class="panel">
+              <h2>Upload Training Video</h2>
+              <form id="videoForm" class="stack-form">
+                <label>
+                  Video Title
+                  <input id="videoTitle" type="text" placeholder="Security Basics" required />
+                </label>
+                <label>
+                  Video Folder
+                  <select id="videoFolderSelect">
+                    <option value="__new__">Create new folder</option>
+                  </select>
+                </label>
+                <label id="videoFolderNewWrap">
+                  New Folder Name
+                  <input id="videoFolderNew" type="text" placeholder="Onboarding" />
+                </label>
+                <label>
+                  Description
+                  <textarea id="videoDescription" rows="3" placeholder="What this module covers"></textarea>
+                </label>
+                <label>
+                  Video File
+                  <input id="videoFile" type="file" accept="video/*" required />
+                </label>
+                <button class="primary-btn" type="submit">Upload Video</button>
+              </form>
+            </article>
+          </div>
+
+          <div class="admin-grid top-gap">
+            <article class="panel">
+              <h2>Joinees</h2>
+              <ul id="joineeList" class="simple-list"></ul>
+            </article>
+            <article class="panel">
+              <h2>Training Library</h2>
+              <ul id="videoList" class="simple-list"></ul>
+            </article>
+          </div>
+
+          <article class="panel top-gap">
+            <h2>Completion Dashboard</h2>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Joinee</th>
+                    <th>Email</th>
+                    <th>Status</th>
+                    <th>Completed</th>
+                    <th>Total Watches</th>
+                    <th>Last Completion</th>
+                  </tr>
+                </thead>
+                <tbody id="progressTableBody"></tbody>
+              </table>
+            </div>
+          </article>
+
+          <article class="panel top-gap analytics-panel">
+            <h2>Training Analytics</h2>
+            <p class="subtitle analytics-subtitle">Employee Progress Tracking</p>
+            <div id="analyticsSummary" class="analytics-grid analytics-overview"></div>
+            <div class="analytics-search top-gap">
+              <label class="search-field">
+                <span class="sr-only">Search employees</span>
+                <input id="analyticsSearchInput" type="text" placeholder="Search employees by name or email..." />
+              </label>
+            </div>
+            <div id="analyticsCards" class="analytics-cards top-gap"></div>
+          </article>
+
+          <article class="panel top-gap excel-panel">
+            <div class="excel-panel-head">
+              <div>
+                <h2>Excel Analytics Studio</h2>
+                <p class="subtitle analytics-subtitle">Upload Excel sheets and turn them into pie charts with percentage tables.</p>
+              </div>
+              <div id="excelReportMeta" class="excel-report-meta hidden"></div>
+            </div>
+
+            <form id="excelUploadForm" class="stack-form top-gap">
+              <div class="excel-controls-grid">
+                <label>
+                  Upload Excel File
+                  <input id="excelFile" type="file" accept=".xlsx,.xls,.csv" required />
+                </label>
+                <label>
+                  Saved Reports
+                  <select id="excelReportSelect">
+                    <option value="">No uploaded reports yet</option>
+                  </select>
+                </label>
+                <label>
+                  Sheet
+                  <select id="excelSheetSelect" disabled>
+                    <option value="">Select a report first</option>
+                  </select>
+                </label>
+              </div>
+
+              <div class="excel-controls-grid">
+                <label>
+                  Category Column
+                  <select id="excelCategorySelect" disabled>
+                    <option value="">Select a sheet first</option>
+                  </select>
+                </label>
+                <label>
+                  Value Column
+                  <select id="excelValueSelect" disabled>
+                    <option value="">Using row count</option>
+                  </select>
+                </label>
+                <div class="excel-action-wrap">
+                  <button class="primary-btn" type="submit">Generate Chart</button>
+                </div>
+              </div>
+            </form>
+
+            <p id="excelStatus" class="status-text top-gap">Upload an Excel sheet to start generating charts.</p>
+
+            <div id="excelEmptyState" class="analytics-empty top-gap">
+              Upload a spreadsheet with column headers like department, category, status, sales, or count. The portal will suggest the best pie chart automatically.
+            </div>
+
+            <div id="excelResults" class="excel-results hidden top-gap">
+              <div class="excel-visual-grid">
+                <article class="excel-chart-card">
+                  <div class="excel-chart-copy">
+                    <p id="excelChartTitle" class="metric-label">Pie Chart</p>
+                    <h3 id="excelChartHeadline">Waiting for data</h3>
+                    <p id="excelChartDescription" class="analytics-copy"></p>
+                  </div>
+                  <div class="excel-chart-stage">
+                    <div id="excelPieChart" class="excel-pie-chart" aria-label="Pie chart visualization"></div>
+                  </div>
+                  <div id="excelLegend" class="excel-legend"></div>
+                </article>
+
+                <article class="excel-table-card">
+                  <div class="table-wrap">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Category</th>
+                          <th>Value</th>
+                          <th>Percent</th>
+                        </tr>
+                      </thead>
+                      <tbody id="excelTableBody"></tbody>
+                    </table>
+                  </div>
+                </article>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <div id="analyticsModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="analyticsModalTitle">
+      <div id="analyticsModalBackdrop" class="modal-backdrop" data-close-modal="true"></div>
+      <div id="analyticsModalCard" class="modal-card">
+        <div class="modal-header">
+          <h2 id="analyticsModalTitle">Completion History</h2>
+          <button id="analyticsModalClose" class="modal-close" type="button" aria-label="Close analytics details">
+            ×
+          </button>
+        </div>
+        <div id="analyticsModalBody" class="modal-body"></div>
+      </div>
+    </div>
+
+    <div id="quizModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="quizModalTitle">
+      <div id="quizModalBackdrop" class="modal-backdrop" data-close-quiz="true"></div>
+      <div id="quizModalCard" class="modal-card">
+        <div class="modal-header">
+          <h2 id="quizModalTitle">Video Quiz</h2>
+          <button id="quizModalClose" class="modal-close" type="button" aria-label="Close quiz">×</button>
+        </div>
+        <div class="modal-body">
+          <p id="quizQuestionText"></p>
+          <form id="quizAnswerForm" class="stack-form"></form>
+          <p id="quizFeedback" class="status-text"></p>
+        </div>
+      </div>
+    </div>
+
+    <div id="quizEditorModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="quizEditorTitle">
+      <div id="quizEditorBackdrop" class="modal-backdrop" data-close-quiz-editor="true"></div>
+      <div id="quizEditorCard" class="modal-card">
+        <div class="modal-header">
+          <h2 id="quizEditorTitle">Edit Video Quiz</h2>
+          <button id="quizEditorClose" class="modal-close" type="button" aria-label="Close quiz editor">×</button>
+        </div>
+        <div class="modal-body">
+          <form id="quizEditorForm" class="stack-form">
+            <label>
+              Question
+              <input id="quizEditorQuestion" type="text" placeholder="What should the trainee remember?" required />
+            </label>
+            <label>
+              Option 1
+              <input id="quizEditorOption1" type="text" required />
+            </label>
+            <label>
+              Option 2
+              <input id="quizEditorOption2" type="text" required />
+            </label>
+            <label>
+              Option 3
+              <input id="quizEditorOption3" type="text" required />
+            </label>
+            <label>
+              Option 4
+              <input id="quizEditorOption4" type="text" required />
+            </label>
+            <label>
+              Correct Answer
+              <select id="quizEditorCorrect" required>
+                <option value="0">Option 1</option>
+                <option value="1">Option 2</option>
+                <option value="2">Option 3</option>
+                <option value="3">Option 4</option>
+              </select>
+            </label>
+            <div class="video-library-actions">
+              <button class="primary-btn" type="submit">Save Quiz</button>
+              <button id="deleteQuizBtn" class="danger-btn" type="button">Delete Quiz</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="script.js?v=20260331-1"></script>
+  </body>
+</html>
